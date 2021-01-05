@@ -1,21 +1,21 @@
 import React, { Component } from 'react';
 import 'antd/dist/antd.css'
 import { Input, Button, List } from 'antd'
-
-const data = [
-  '8am Morning meeting',
-  '9am Meeting with project manager',
-  '10am Coding'
-]
+import store from './store'
 
 class TodoList extends Component {
+
+  constructor(props) {
+    super(props)
+    this.state = store.getState()
+  }
 
   render() {
     return (
       <div style={{ margin: '10px' }}>
         <div>
           <Input
-            placeHolder='Write Something'
+            placeHolder={this.state.inputValue}
             style={{ width: '250px', marginRight: '10px' }}
           />
           <Button type="primary">Add</Button>
@@ -23,7 +23,7 @@ class TodoList extends Component {
         <div style={{ margin: '10px', width: '300px' }}>
           <List
             bordered
-            dataSource={data}
+            dataSource={this.state.list}
             renderItem={item => (<List.Item>{item}</List.Item>)}
           />
         </div>
