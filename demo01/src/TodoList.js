@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import store from './store'
-import { changeInputAction, addItemAction, deleteItemAction } from './store/actionCreators'
+import { changeInputAction, addItemAction, deleteItemAction, getListAction } from './store/actionCreators'
 import TodoListUI from './TodoListUI'
+import axios from 'axios'
 
 class TodoList extends Component {
 
@@ -10,9 +11,9 @@ class TodoList extends Component {
         this.state = store.getState()
         // console.log(this.state)
         this.changeInputValue = this.changeInputValue.bind(this)
-        this.storeChange = this.storeChange.bind(this)
         this.clickBtn = this.clickBtn.bind(this)
         this.deleteItem = this.deleteItem.bind(this)
+        this.storeChange = this.storeChange.bind(this)
         store.subscribe(this.storeChange)
     }
 
@@ -26,6 +27,15 @@ class TodoList extends Component {
                 deleteItem={this.deleteItem}
             />
         );
+    }
+
+    componentDidMount() {
+        axios.get('http://localhost:7300/mock/5ffc3f93ecdc71001838a5a7/example/getList')
+            .then((res) => {
+                const data = res.data
+                const action = getListAction(data)
+                store.dispatch(action)
+            })
     }
 
     changeInputValue(e) {

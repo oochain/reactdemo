@@ -1,12 +1,8 @@
-import { CHANGE_INPUT, ADD_ITEM, DELETE_ITEM } from './actionType'
+import { CHANGE_INPUT, ADD_ITEM, DELETE_ITEM, GET_LIST } from './actionType'
 
 const defaultState = {
     inputValue: 'Write Something',
-    list: [
-        '8am 11111',
-        '9am 2222',
-        '10am 3333',
-    ]
+    list: []
 }
 export default (state = defaultState, action) => {
     // In here Reducer can only receive 'state' and cannot change 'state'
@@ -26,5 +22,11 @@ export default (state = defaultState, action) => {
         newState.list.splice(action.index, 1)
         return newState
     }
+
+    if (action.type === GET_LIST) {
+        newState.list = action.data.data.list
+        return newState
+    }
+
     return state
 }
